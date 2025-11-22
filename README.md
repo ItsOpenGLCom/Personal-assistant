@@ -1,16 +1,122 @@
-# main
+Умный персональный ассистент
+Приложение для управления задачами с аналитикой выполнения, созданное на Flutter.
 
-A new Flutter project.
+Основные возможности
+Управление задачами - создание, редактирование, удаление задач
 
-## Getting Started
+Система приоритетов - высокий, средний, низкий приоритет с цветовой индикацией
 
-This project is a starting point for a Flutter application.
+Дедлайны - установка сроков выполнения задач
 
-A few resources to get you started if this is your first Flutter project:
+Аналитика - статистика выполнения по приоритетам
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Темная тема - переключение между светлой и темной темой
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Локальное хранение - данные сохраняются в SQLite базе данных
+
+Установка
+Требования
+Flutter SDK (последняя стабильная версия)
+
+Android Studio или VS Code с Flutter расширением
+
+Шаги установки
+Клонируйте репозиторий:
+
+bash
+git clone <repository-url>
+cd personal_assistant
+Установите зависимости:
+
+bash
+flutter pub get
+Запустите приложение:
+
+bash
+flutter run
+Структура проекта
+text
+lib/
+├── Модели
+│   └── Todo - модель задачи
+├── База данных
+│   └── DatabaseHelper - работа с SQLite
+├── Репозитории
+│   └── TodoRepository - управление задачами
+├── Провайдеры
+│   └── Riverpod провайдеры для состояния
+└── Экранs
+    ├── LoginScreen - вход в систему
+    ├── HomeScreen - главный экран с вкладками
+    ├── DashboardScreen - дашборд с прогрессом
+    ├── TodoListScreen - список задач
+    └── AnalyticsScreen - аналитика
+Используемые технологии
+Flutter - кроссплатформенный фреймворк
+
+Riverpod - управление состоянием приложения
+
+SQFlite - локальная база данных
+
+Intl - форматирование дат
+
+Как использовать
+Добавление задачи
+Нажмите кнопку "+" на экране задач
+
+Заполните описание задачи
+
+Выберите приоритет
+
+Установите дедлайн (опционально)
+
+Нажмите "Добавить"
+
+Управление задачами
+Отметка выполнения - чекбокс в карточке задачи
+
+Удаление - свайп карточки влево/вправо
+
+Просмотр дедлайнов - отображается в подзаголовке
+
+Аналитика
+Общее количество выполненных задач
+
+Процент выполнения
+
+Статистика по приоритетам
+
+Сборка для производства
+Android
+bash
+flutter build apk --release
+iOS
+bash
+flutter build ios --release
+Особенности реализации
+State management через Riverpod
+
+Локальная база данных SQLite
+
+Адаптивный дизайн
+
+Поддержка темной темы
+
+Валидация форм
+
+Возможные улучшения
+Уведомления о дедлайнах
+
+Синхронизация с облаком
+
+Категории задач
+
+Поиск и фильтрация
+
+Экспорт данных
+
+Разработка
+Приложение разработано с использованием Flutter и следует принципам чистого кода. Архитектура построена на разделении ответственности между моделями, репозиториями и UI компонентами.
+
+Лицензия
+MIT License
