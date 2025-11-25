@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-// ========== MODELS ==========
+// МОДЕЛИ
 class Todo {
   final int? id;
   final String description;
@@ -73,7 +73,7 @@ class Todo {
 
 enum Priority { low, medium, high }
 
-// ========== DATABASE ==========
+// БД
 class WebStorageService {
   static final WebStorageService _instance = WebStorageService._internal();
   factory WebStorageService() => _instance;
@@ -128,7 +128,7 @@ class WebStorageService {
   }
 }
 
-// ========== REPOSITORIES ==========
+// РЕПОЗИТОРИЙ
 class TodoRepository {
   final WebStorageService _storageService;
 
@@ -160,7 +160,7 @@ class TodoRepository {
   }
 }
 
-// ========== PROVIDERS ==========
+// ПРОВАЙДЕРЫ
 final storageServiceProvider = Provider<WebStorageService>((ref) => WebStorageService());
 
 final todoRepositoryProvider = Provider<TodoRepository>((ref) {
@@ -201,13 +201,13 @@ class Analytics {
   }
 }
 
-// ========== THEME PROVIDER ==========
+// ПРОВАЙДЕР ТЕМЫ
 final themeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.light);
 
-// ========== AUTH PROVIDER ==========
+// ПРОВАЙДЕР РЕГИСТРАЦИИ
 final authProvider = StateProvider<bool>((ref) => false);
 
-// ========== WIDGETS ==========
+// ВИДЖЕТЫ
 void main() {
   // Инициализация для desktop-приложений
   runApp(
@@ -324,6 +324,124 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               },
               child: const Text('Войти'),
             ),
+            TextButton(onPressed: () {
+            Navigator.push(context, 
+            MaterialPageRoute(builder: (context) => const RegisterScreen()),
+            );
+          },
+          child: const Text("Регистрация")  
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class RegisterScreen extends ConsumerWidget {
+  const RegisterScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Регистрация в системе'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.brightness_6),
+            onPressed: () {
+              final currentTheme = ref.read(themeProvider);
+              ref.read(themeProvider.notifier).state = 
+                  currentTheme == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+            },
+          ),
+        ],
+      ),
+      body: const LoginForm(),
+    );
+  }
+}
+
+class RegisterFormState extends ConsumerState<LoginForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _loginController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _loginController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              controller: _loginController,
+              decoration: const InputDecoration(
+                labelText: 'Регистрация',
+                border: OutlineInputBorder(),
+              ),
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Пожалуйста, введите имя';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _passwordController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Пароль',
+                border: OutlineInputBorder(),
+              ),
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Пожалуйста, введите пароль';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 24,),
+            TextFormField(
+              controller: _passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Подтвердите пароль',
+                border: OutlineInputBorder(),
+              ),
+              validator: (String? value){
+                 if (value == null || value.isEmpty) {
+                  return 'Пожалуйста, подтвердите пароль';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  ref.read(authProvider.notifier).state = true;
+                }
+              },
+              child: const Text('Зарегистрироваться'),
+            ),
+            TextButton(onPressed: () {
+            Navigator.push(context, 
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+            );
+          },
+          child: const Text("Войти")  
+            ),
           ],
         ),
       ),
@@ -385,6 +503,7 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 }
+
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
